@@ -1,0 +1,64 @@
+{
+  "version": "1.0",
+  "defaultProvider": "cdnjs",
+  "libraries": [
+    {
+      "provider": "unpkg",
+      "library": "bootstrap-material-design@4.1.1",
+      "destination": "wwwroot/lib/bootstrap/"
+    },
+    {
+
+      "library": "font-awesome@5.4.2",
+      "destination": "wwwroot/lib/font-awesome/"
+    },
+    {
+      "library": "jquery@3.4.1",
+      "destination": "wwwroot/lib/jquery/dist"
+    },
+    {
+      "library": "jquery-validate@1.19.1",
+      "destination": "wwwroot/lib/jquery-validation/dist/"
+    },
+    {
+      "library": "jquery-validation-unobtrusive@3.2.11",
+      "destination": "wwwroot/lib/jquery-validation-unobtrusive/"
+    },
+    {
+      "library": "popper.js@1.15.0",
+      "destination": "wwwroot/lib/jquery-popper/"
+    },
+    //{
+    //  "library": "tooltip.js",
+    //  "destination": "wwwroot/lib/jquery-tooltip/"
+    //},
+
+    //{
+    //  "provider": "cdnjs",
+    //  "library": "material-design-icons@3.0.1",
+    //  "destination": "wwwroot/lib/material-design-icons/"
+    //}
+
+  
+    {
+      "provider": "cdnjs",
+      "library": "moment.js@2.20.1",
+      "destination": "wwwroot/lib/moment"
+    },
+    {
+      "provider": "cdnjs",
+      "library": "bootstrap-material-datetimepicker@2.7.1",
+      "destination": "wwwroot/lib/bootstrap-material-datetimepicker/"
+    },
+    {
+      "provider": "cdnjs",
+      "library": "limonte-sweetalert2@8.11.8",
+      "destination": "wwwroot/lib/limonte-sweetalert2/"
+    },
+    {
+      "provider": "cdnjs",
+      "library": "dropzone@5.5.1",
+      "destination": "wwwroot/lib/dropzone/"
+    }
+  ]
+}

@@ -1,0 +1,273 @@
+﻿/*body {
+    padding-top: 50px;
+    padding-bottom: 20px;
+    background: rgba(179,220,237,1);
+    background: -moz-linear-gradient(left, rgba(179,220,237,1) 0%, rgba(41,184,229,1) 50%, rgba(188,224,238,1) 100%);
+    background: -webkit-gradient(left top, right top, color-stop(0%, rgba(179,220,237,1)), color-stop(50%, rgba(41,184,229,1)), color-stop(100%, rgba(188,224,238,1)));
+    background: -webkit-linear-gradient(left, rgba(179,220,237,1) 0%, rgba(41,184,229,1) 50%, rgba(188,224,238,1) 100%);
+    background: -o-linear-gradient(left, rgba(179,220,237,1) 0%, rgba(41,184,229,1) 50%, rgba(188,224,238,1) 100%);
+    background: -ms-linear-gradient(left, rgba(179,220,237,1) 0%, rgba(41,184,229,1) 50%, rgba(188,224,238,1) 100%);
+    background: linear-gradient(to right, rgba(179,220,237,1) 0%, rgba(41,184,229,1) 50%, rgba(188,224,238,1) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#b3dced', endColorstr='#bce0ee', GradientType=1 );
+}*/
+
+/*body {
+    background-color: #0C3A6D !important;
+    background-image: url('img/bg.jpg');
+    background-repeat: repeat-x;
+    background-position: center top;
+
+}*/
+
+/* Set padding to keep content from hitting the edges */
+/*.body-content {
+    padding-left: 15px;
+    padding-right: 15px;
+}*/
+
+/* 
+    Override the default bootstrap behavior where horizontal description lists 
+   will truncate terms that are too long to fit in the left column 
+*/
+.dl-horizontal dt {
+    white-space: normal;
+}
+
+ /*Set width on the form input elements since they're 100% wide by default*/ 
+/*input, select, textarea {
+    max-width: 280px;
+}*/
+    
+/* 
+    Bootstrap Overrides
+
+*/
+
+
+
+.navbar{
+    display:initial;
+}
+
+
+.navbar.navbar-inverse {
+    background-color: #1e6c9c;
+    border-color: #1e6c9c;
+    color: #FAFAFA;
+}
+
+.navbar-header {
+    float: left;
+    padding: 15px;
+    text-align: center;
+    width: 100%;
+}
+
+.navbar-brand {
+    float:none;
+}
+
+.modal-backdrop.in {
+    opacity: 1.0;
+}
+
+.modal-header{
+     background-color: #EEEEEE;
+     color: #333;
+     display:initial;
+}
+
+.modal-content {
+    overflow:hidden;
+}
+
+.modal-title {
+    margin: 0px 0px 10px 6px;
+    line-height: 1.42857143;
+}
+
+.btn-in-table {
+    border: none;
+    border-radius: 2px;
+    position: relative;
+    padding: 0px;
+    margin: 0px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0;
+    will-change: box-shadow, transform;
+    transition: box-shadow 0.2s cubic-bezier(0.4, 0, 1, 1), background-color 0.2s cubic-bezier(0.4, 0, 0.2, 1), color 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    outline: 0;
+    cursor: pointer;
+    text-decoration: none;
+    background: transparent;
+}
+
+td {
+    vertical-align: middle;
+}
+
+.header-container {
+    width: 100%;
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.container {
+    /*width: 100%;*/
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+/* 
+    Menu Bar Overrides
+*/
+
+.hamburger {
+    position: absolute;
+    top: 10px;
+    z-index: 999;
+    display: block;
+    width: 32px;
+    height: 32px;
+    margin-left: 0px;
+    background: transparent;
+    border: none;
+}
+
+.hamburger.is-closed .hamb-top, .hamburger.is-closed .hamb-middle, .hamburger.is-closed .hamb-bottom {
+    background-color: #1e6c9c;
+}
+
+.hamburger.is-open .hamb-top, .hamburger.is-open .hamb-middle, .hamburger.is-open .hamb-bottom {
+    background-color: #1e6c9c;
+}
+
+#header-row {
+    position: fixed;
+    z-index: 10;
+    width: 100%;
+    background-color: #fff;
+    color: #1e6c9c;
+    border-bottom: 2px solid #ccc;
+}
+
+label
+{
+    font-weight:bold !important;
+    font-size:medium !important;
+    color: black !important;
+    
+}
+
+.form-control[readonly] {
+    background-color: #f5f4f4;
+    opacity: 1;
+}
+
+legend {
+    padding-top: 50px;
+    margin-left: 10px;
+}
+
+.bs-component {
+    position: relative;
+}
+
+
+/*
+    Dropzone overrides
+*/
+
+.dropzone {
+    width: inherit;
+    height: 500px;
+    background: #eee;
+    border: 2px dashed #016194;
+    border-radius: 5px;
+}
+
+.dz-upload {
+    background: linear-gradient(to right, #0e8ece, #016194)
+}
+
+/* 
+    Processing overlay
+*/
+.sims-processing-overlay {
+    position: fixed;
+    display: none;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(250,250,250,0.8);
+    z-index: 1;
+}
+
+.glyphicon-spin {
+    -webkit-animation: spin 1000ms infinite linear;
+    animation: spin 1000ms infinite linear;
+}
+
+@-webkit-keyframes spin {
+    0% {
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+    100% {
+        -webkit-transform: rotate(359deg);
+        transform: rotate(359deg);
+    }
+}
+
+@-moz-keyframes spin {
+    0% {
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+
+    100% {
+        -webkit-transform: rotate(359deg);
+        transform: rotate(359deg);
+    }
+}
+
+@keyframes spin {
+    0% {
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+
+    100% {
+        -webkit-transform: rotate(359deg);
+        transform: rotate(359deg);
+    }
+}
+
+.login {
+    position: absolute; 
+    top: 50%; 
+    left: 50%; 
+    transform: translate(-50%,-50%);
+}
+
+
+.nav-item {
+    padding-left: 50px;
+}
+
+/*Hide Native datepicker*/
+/*input::-webkit-calendar-picker-indicator {
+    display: none;
+}
+
+input[type="date"]::-webkit-input-placeholder {
+    visibility: hidden !important;
+}*/

@@ -1,0 +1,114 @@
+﻿@model IEnumerable<SAS.Domain.Entities.Security.MenuToRole>
+@{
+    ViewData["Title"] = "Index";
+    var id = 1;
+}
+<secure-content asp-area="" asp-controller="Security" asp-action="MenuToRole">
+
+
+    <div class="card">
+        <div class="card-header bg-light">
+            <div class="row">
+                <div class="col-12">
+                    <div class="float-left">
+                        <h3><i class="far fa-address-card"></i> Assign Role Menu</h3>
+                    </div>
+                    <div class="float-right">
+                        <a asp-action="AssignMenuToRole" class="btn btn-success btn-raised" role="button" id="indexcreatebtn"><i class="fas fa-plus"></i> Assign</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="col-4">
+                <form>
+                    <label class="bmd-label-static">Role Name</label>
+                    <select id="selRole" onchange="getAssignedMenus()" class="form-control" asp-items="ViewBag.roles">
+                        <option value="">--Select--</option>
+                    </select>
+                </form>
+            </div>
+
+
+            <div style="width:50%;">
+                <table class="table table-striped">
+                    <thead class="thead-light">
+                        <tr>
+
+                            <th> S.No </th>
+                            <th>
+                                Controller Name
+                            </th>
+                            <th>
+                                Action Name
+                            </th>
+                            <th>
+                                Tools
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model.Count() == 0)
+                        {
+                            <tr>
+                                <td>
+                                    No record found
+                                </td>
+                            </tr>
+                        }
+
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    @id
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.MenuMaster.ControllerName)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.MenuMaster.ActionName)
+                                </td>
+                                @*<td>
+                                @Html.DisplayFor(modelItem => item.ActionDisplayName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.CreatedDate)
+                            </td>*@
+                                <td>
+                                    @*<a asp-action="Delete" asp-route-id="@item.MenuToRoleId">Delete</a>*@
+
+
+                                    <a asp-action="DeleteMenuToRoleAssignment" onclick="deleteAlert(event)" asp-route-id="@item.MenuToRoleId"><i class="fas fa-trash"></i></a>
+
+                                </td>
+                            </tr>
+                            { id = id + 1; }
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+   </div>
+
+    <script>
+
+        function getAssignedMenus() {
+            var selectedRole = $('#selRole').val();
+            if (selectedRole == "") {
+
+                Swal.fire({
+                    type: 'error',
+                    title: 'Oops...',
+                    text: 'Please select Role'
+
+                })
+              //  alert("Please select Role");
+                return false;
+            }
+               window.location.href = '@Url.Action("MenuToRole", "Security",new { id = "Id" })'.replace("Id", selectedRole);
+           // window.location.replace("/Security/MenuToRole/" + selectedRole);
+
+        }
+    </script>
+ </secure-content>

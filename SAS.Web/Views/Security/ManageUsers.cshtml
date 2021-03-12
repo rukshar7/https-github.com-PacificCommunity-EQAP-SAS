@@ -1,0 +1,227 @@
+﻿
+
+@{
+    ViewData["Title"] = "ManageUsers";
+   
+}
+<secure-content asp-area="" asp-controller="Security" asp-action="ManageUsers">
+    <div class="card">
+        <div class="card-header bg-light">
+            <div class="row">
+                <div class="col-12">
+                    <div class="float-left">
+                        <h3><i class="fas fa-users fasHeader"></i> Manage Users</h3>
+                    </div>
+                    <div class="float-right">
+                        <a asp-area="Identity" asp-page="/Account/Register" class="btn btn-success btn-raised" role="button"><i class="fas fa-user-plus"></i> User</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card-body">
+            <div style="width:50%;">
+                <table id="tblManageUsers" class="table table-striped  dt-responsive nowrap" cellspacing="0">
+                    <thead class="thead-light">
+                        <tr>
+                            <th>Name</th>
+                            <th>User Name</th>
+                            <th>Email</th>
+                            <th>Role</th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="ChangeRoleModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel"><i class="fas fa-user-tag"></i> Change User Role</h4>
+                </div>
+                <div class="modal-body">
+                    <form id="changeroleform" asp-action="ChangeRole" class="form-horizontal">
+                        <input type="text" name="roleName" id="roleName" class="bmd-label-floating" style="display:none;">
+                        <input type="text" name="ruserId" id="ruserId" style="display:none;">
+                     
+                        <div class="form-group">
+                            <label for="roleSelect" class="bmd-label-floating">Role</label>
+                            <div class="col-sm-10">
+                                <select id="roleSelect" class="form-control" onchange="setRole()" asp-items="ViewBag.roles">
+                                    <option value="">--Select--</option>
+                                </select>
+                                <label id="rolerror" class="col-sm-5 error" style="display:none;">Please select Role</label>
+                            </div>
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-danger btn-raised" data-dismiss="modal">Close</button>&nbsp;
+                            <button type="submit" class="btn btn-primary btn-raised" onclick="return setRole()">Save changes</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+   
+    <script src="~/js/security.js" ></script>
+
+    <script>
+
+
+        $(document).ready(function () {
+
+
+            $('#tblManageUsers').DataTable({
+                "ajax": {
+                    "url": '@Url.Action("GetAllUsers", "Security")',
+                    "type": "GET",
+                    "datatype": "json"
+                },
+                "columns": [
+                    { "data": "name" },
+                    { "data": "userEmail" },
+                    { "data": "email" },
+                    { "data": "roles" },
+                    {
+                        "render": function (data, type, full, meta) {
+                               var url = '@Url.Action("LockUnLock", "Security",new { id = "Id" })'.replace("Id", full.userId);
+                            if (full.lockoutEnd == null) {
+
+                             
+                                return '<a href="'+url+'" onclick="LockUserAlert(event)" > <i class="fas fa-user-lock"></i></a > ';
+                            }
+
+                            else {
+                              
+                                return '<a href="' + url +'" onclick="UnLockUserAlert(event)"><i class="fas fa-unlock"></i></a>';
+                            }
+                                
+                        }
+                    },
+                   
+                    {
+                        "render": function (data, type, full, meta) {
+                            var url = '@Url.Action("DeleteUser", "Security",new { id = "Id" })'.replace("Id", full.userId);
+                            return '<a href="'+url+'" onclick = "deleteUserAlert(event)"><i class="fas fa-user-times"></i></a>';
+                        }
+                    },
+                    {
+                        "render": function (data, type, full, meta) {
+
+                            var url = '@Url.Action("AdminChangePassword", "Security",new { roleId = "Id" })'.replace("Id", full.userId);
+                            return '<a href="'+url+'"><i class="fas fa-key"></i></a>';
+                          //  return '<a href="/Security/AdminChangePassword/' + full.userId + '"><i class="fas fa-key"></i></a>';
+                        }
+                    },
+
+                    {
+                        "render": function (data, type, full, meta) {
+                        
+                            return '<a href="#" onclick="changeuserRole(\'' + full.userId + '\')"><i class="fas fa-user-tag"></i></a>';
+                        }
+                    },
+
+                ]
+            });
+        });
+
+        function changeuserRole(userId) {
+            $("#ruserId").val(userId);
+            $('#ChangeRoleModal').modal('show');
+        }
+
+        function setRole() {
+            var selectedRoleName = $("#roleSelect option:selected").text();
+            if (selectedRoleName == "--Select--") {
+                $('#rolerror').css("display", "block")
+                return false;
+            }
+            else {
+                $('#rolerror').css("display", "none")
+                $("#roleName").val(selectedRoleName);
+                return true;
+            }
+        }
+
+        function deleteUserAlert(e) {
+
+            console.log(e);
+            e.preventDefault();
+            Swal.fire({
+                title: 'Are you sure you wish to delete this user?',
+                text: "You won't be able to revert this!",
+                type: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, delete it!'
+            }).then((result) => {
+                if (result.value) {
+                    $("a").prop("onclick", null);
+                     $(e.target).trigger('click', {});
+
+                }
+                else {
+
+                }
+            })
+        }
+
+        function LockUserAlert(e) {
+
+            console.log(e);
+            e.preventDefault();
+            Swal.fire({
+                title: 'Are you sure you wish to lock this user?',
+               // text: "You won't be able to revert this!",
+                type: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, lock it!'
+            }).then((result) => {
+                if (result.value) {
+                    $("a").prop("onclick", null);
+                    $(e.target).trigger('click', {});
+
+                }
+                else {
+
+                }
+            })
+        }
+        function UnLockUserAlert(e) {
+
+            console.log(e);
+            e.preventDefault();
+            Swal.fire({
+                title: 'Are you sure you wish to unlock this user?',
+                // text: "You won't be able to revert this!",
+                type: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, unlock it!'
+            }).then((result) => {
+                if (result.value) {
+                    $("a").prop("onclick", null);
+                    $(e.target).trigger('click', {});
+
+                }
+                else {
+
+                }
+            })
+        }
+
+    </script>
+</secure-content>
+

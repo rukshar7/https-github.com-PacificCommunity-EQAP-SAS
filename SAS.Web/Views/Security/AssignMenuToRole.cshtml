@@ -1,0 +1,247 @@
+﻿@model IEnumerable<SAS.Domain.Entities.Security.ControllerInfo>
+@{
+    ViewData["Title"] = "Create";
+    var id = 1;
+}
+@*<secure-content asp-area="" asp-controller="Security" asp-action="AssignMenuToRole">*@
+    <script>
+        var controllerName = [];
+    </script>
+
+    <div>
+        <div id="fdout" class="alert alert-success" style="display:none">
+            <i class="fas fa-check"></i><strong id="errorText"> </strong>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header bg-light">
+            <div class="row">
+                <div class="col-12">
+                    <div class="float-left">
+                        <h3><i class="far fa-address-card"></i> Assign Menu To Role </h3>
+                    </div>
+                    <div class="float-right">
+                        <a asp-action="MenuToRole" class="btn btn-danger btn-raised" role="button" id="indexcreatebtn"><i class="fas fa-angle-double-left"></i> Back To List</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card-body">
+            <form>
+                <div class="col-4">
+                    <label class="bmd-label-static">Role Name</label>
+                    <select id="assignMenuRoleId" onchange="getUnAssignedMenus()" class="form-control" asp-items="ViewBag.roles">
+                        <option value="">--Select--</option>
+                    </select>
+                </div><br/>
+                <div class="col">
+                    <a class="btn btn-primary btn-raised" onclick="updateRole()" role="button" id="indexcreatebtn"> @*<i class="far fa-save"></i>*@ Save</a>
+                </div>
+            </form>
+        </div>
+    </div><br/>
+        @if (Model.Count() == 0)
+        {
+            <div>
+                No record found
+            </div>
+        }
+
+       
+        @foreach (var item in Model)
+        {
+                <script>
+            controllerName.push('@item.Name');
+                </script>
+
+            <div class="card">
+                <div id="Panel_@item.Name" class="panel panel-default" style="margin-bottom: 10px;">                   
+                        <a data-toggle="collapse" data-parent="#accordion" href="#AssignController_@item.Name">
+                            <h4 class="card-header bg-light">
+                                @Html.DisplayFor(modelItem => item.DisplayName) <span class="fas fa-plus float-left">&nbsp;</span>
+                            </h4>
+                        </a>
+                    
+                    <div id="AssignController_@item.Name" class="panel-collapse collapse">
+                        <div class="card-body">
+
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            Action Name
+                                        </th>
+                                        <th>
+                                            <div class="checkbox">
+                                                <label for="SelectAll_@item.Name">
+                                                    <input onchange="updateAllCheckBox(this,'@item.Name')" id="SelectAll_@item.Name" name="SelectAll_@item.Name" type="checkbox" value="" />
+                                                    Check All
+                                                </label>
+                                            </div>
+                                        </th>
+
+                                    </tr>
+                                </thead>
+
+                                <tbody id="ActionLists_@item.Name">
+                                    @foreach (var action in item.Actions)
+                                    {
+                                        <tr>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => action.Name)
+                                            </td>
+                                            <td>
+                                                <div class="checkbox">
+                                                    <label> <input name="Chk_@item.Id" type="checkbox" value="@action.ActionId" /></label>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    }
+
+                                </tbody>
+                            </table>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+         }
+        
+
+        <script>
+
+            //function selectAllMenuBox(ths) {
+            //    if (ths.checked) {
+            //        $('#assignMenuToRoleList').find(':checkbox').each(function () {
+            //            this.checked = true;
+            //        });
+            //    }
+            //    else {
+            //        $('#assignMenuToRoleList').find(':checkbox').each(function () {
+            //            this.checked = false;
+            //        });
+            //    }
+
+            //}
+
+
+            $(document).ready(function () {
+                // Add minus icon for collapse element which is open by default
+                $(".collapse.in").each(function () {
+                    $(this).siblings(".panel-heading").find(".glyphicon").addClass("glyphicon-minus").removeClass("glyphicon-plus");
+                });
+
+                // Toggle plus minus icon on show hide of collapse element
+                $(".collapse").on('show.bs.collapse', function () {
+                    $(this).parent().find(".glyphicon").removeClass("glyphicon-plus").addClass("glyphicon-minus");
+                }).on('hide.bs.collapse', function () {
+                    $(this).parent().find(".glyphicon").removeClass("glyphicon-minus").addClass("glyphicon-plus");
+                });
+            });
+
+
+
+            function updateAllCheckBox(ths, controllerName) {
+                if (ths.checked) {
+                    var selectedControllerId = "ActionLists_" + controllerName;
+                    $('#' + selectedControllerId).find(':checkbox').each(function () {
+                        this.checked = true;
+                    });
+                }
+                else {
+                    var selectedControllerId = "ActionLists_" + controllerName;
+                    $('#' + selectedControllerId).find(':checkbox').each(function () {
+                        this.checked = false;
+                    });
+                }
+
+            }
+
+
+            function getUnAssignedMenus() {
+                var selectedRole = $('#assignMenuRoleId').val();
+                if (selectedRole == "") {
+                    Swal.fire({
+                        type: 'error',
+                        title: 'Oops...',
+                        text: 'Please select Role'
+
+                    })
+                    return false;
+                }
+
+               // window.location.href = "/Security/AssignMenuToRole/" + selectedRole;
+                  window.location.href = '@Url.Action("AssignMenuToRole", "Security",new { id = "Id" })'.replace("Id", selectedRole);
+
+            }
+
+            function updateRole() {
+                var selectedRole = $('#assignMenuRoleId').val();
+                if (selectedRole == "") {
+                    Swal.fire({
+                        type: 'error',
+                        title: 'Oops...',
+                        text: 'Please select Role'
+
+                    })
+                    return false;
+                }
+                var assignMenuList = [];
+                $(controllerName).each(function (index, value) {
+                    $('#ActionLists_' + value).find(':checkbox').each(function () {
+                        if (this.checked) {
+                            var menuId = $(this).val();
+                            assignMenuList.push({ menuId: menuId });
+                        }
+                    });
+                    console.log(assignMenuList.length);
+                });
+                if (assignMenuList.length == 0)
+                    Swal.fire({
+                        type: 'error',
+                        title: 'Oops...',
+                        text: 'Please select atleast one menu item!'
+
+                    })
+
+                var assignMenuToRole = {
+                    assignMenuList: assignMenuList,
+                    roleId: selectedRole
+                };
+                var data = JSON.stringify(assignMenuToRole);
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("MenuAssignmentToRole", "Security")',
+                    dataType: 'text',
+                    data: "assignMenuList=" + data,
+                    success: function (response) {
+                        if (response == "true") {
+                            Swal.fire(
+                                'Good job!',
+                                'Menu assigned successfully!',
+                                'success'
+                            )
+
+
+                            setTimeout(function () {
+                                $('#fdout').hide();
+                           //     window.location.href = "/Security/MenuToRole/" + selectedRole;
+                                window.location.href = '@Url.Action("MenuToRole", "Security",new { id = "Id" })'.replace("Id", selectedRole);
+                            }, 2000);
+                        }
+                        else {
+                            Swal.fire({
+                                type: 'error',
+                                title: 'Oops...',
+                                text: 'An error occured processing your request'
+
+                            })
+                        }
+                    }
+                });
+            }
+        </script>
+
+@*</secure-content>*@

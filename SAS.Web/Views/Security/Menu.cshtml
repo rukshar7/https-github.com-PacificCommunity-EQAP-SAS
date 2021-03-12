@@ -1,0 +1,72 @@
+﻿@model IEnumerable<SAS.Domain.Entities.Security.MenuMaster>
+@{
+    ViewData["Title"] = "Index";
+   
+}
+<secure-content asp-area="" asp-controller="Security" asp-action="Menu">
+
+    <div classs="card">
+        <div class="card-header bg-light ">
+            <div class="row">
+                <div class="col-12">
+                    <div class="float-left">
+                        <h3><i class="fas fa-bars"></i> Manage Menu</h3>
+                    </div>
+                    <div class="float-right">
+                        <a asp-action="CreateMenus" class="btn btn-success btn-raised" role="button" id="indexcreatebtn"><i class="fas fa-plus"></i> Menu</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card-body">
+            <div style="width:50%;">
+                <table id="grid" class="table table-striped">
+                    <thead class="thead-light">
+                        <tr>
+
+                            <th>Id</th>
+                            <th>Controller Name</th>
+                            <th>Action Name</th>
+                            @*<th>Action Display Name</th>*@
+                            <th>Created Date</th>
+                            <th>Tools</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+        </div>
+ 
+    <script>
+        $(document).ready(function () {
+            $('#grid').DataTable({
+
+                "ajax": {
+                    "url": '@Url.Action("DataListingRole", "Security")',
+                    "type": "GET",
+                    "datatype": "json"
+                },
+                "columns": [
+
+                    { "data": "id", "visible": false, "searchable": false },
+                    { "data": "controllerName" },
+                    { "data": "actionName" },
+                    //{ "data": "actionDisplayName" },
+                    {
+                        "data": "createdDate", "render": function (data) {
+                            return moment(data).format("DD/MM/YYYY HH:mm:ss A");
+                        }
+                    },
+                    {
+                        "data": "id",
+                        "render": function (data, type, row) {
+                            var url = '@Url.Action("DeleteMenu", "Security", new { id = "Id" })'.replace("Id", row.id);
+                            return '<a title="Delete" href="' + url + '" onclick = "deleteAlert(event)"><i class="fas fa-trash"></i></a >';
+                        }
+                    },
+                ]
+            });
+        });
+
+    </script>
+    </secure-content>
